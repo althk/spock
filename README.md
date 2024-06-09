@@ -57,7 +57,22 @@ $ python parse_evaluation_results.py --evaluation_results_file=<path to the csv>
 This will print out some statistics and highlight the best model overall for all stocks
 > NOTE: the script currently picks the model with the min RMSE at p95
 
-### Final step, training the best model on all stocks
+### Training the selected/best model on all stocks
 
 1. Now that we have found the model that works best overall across all stocks,
-   we need to train it on all the stocks individually and save the model per stock.
+   we need to train it on all the stocks individually and save the model per stock. For example, if
+the evaluation results were saved at `output/20240609185957/evaluation_results.csv` and the stock data is in
+the `data` directory, running the following command would parse the model selected via grid search cv
+for each stock and save the model and scaler objects under the same output directory.
+```shell
+$ python train_model.py --data_dir=data --results_file=output/20240609185957/evaluation_results.csv --logtostderr
+```
+2. For example, if the model selected was `XGBRegressor`, then in the dir `output/20240609185957` there will
+be files of the format `{ticker}_XGBRegressor.pkl` and `{ticker}_Scaler.pkl`.
+
+### Making predictions
+
+To predict values for a given ticker:
+1. Load the model and scaler for the specific ticker
+2. Scale the data using the loaded scaler
+3. Predict the price using the loaded model
