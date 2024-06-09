@@ -58,8 +58,8 @@ def _train_and_evaluate_tr_models(ticker, X_scaled, y):
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
     for model_name, cfg in config.tr_model_cfg.items():
         logging.info(f'{ticker}: finding best estimator for {model_name}')
-        model_inst, param_grid = cfg
-        _, rmse = util.evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test)
+        model_factory, param_grid = cfg
+        _, rmse = util.evaluate_tr_model(model_factory(), param_grid, X_train, y_train, X_test, y_test)
         evaluation_results[model_name] = rmse
     return evaluation_results
 

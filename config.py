@@ -31,8 +31,8 @@ param_grid_xgb = {
 
 # Traditional ML models and their params
 tr_model_cfg = {
-    'LinearRegression': (LinearRegression(), param_grid_lr),
-    'DecisionTreeRegressor': (DecisionTreeRegressor(), param_grid_dt),
-    'RandomForestRegressor': (RandomForestRegressor(), param_grid_rf),
-    'XGBRegressor': (XGBRegressor(), param_grid_xgb),
+    'LinearRegression': (lambda: LinearRegression(), param_grid_lr),
+    'DecisionTreeRegressor': (lambda: DecisionTreeRegressor(), param_grid_dt),
+    'RandomForestRegressor': (lambda: RandomForestRegressor(), param_grid_rf),
+    'XGBRegressor': (lambda: XGBRegressor(), param_grid_xgb),
 }
