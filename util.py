@@ -1,5 +1,8 @@
+from typing import Tuple, Any, Hashable
+
 import numpy as np
 import pandas as pd
+from pandas import DataFrame, Series
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import MinMaxScaler
@@ -36,3 +39,11 @@ def evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test, 
     mse = mean_squared_error(y_test, predictions)
     rmse = np.sqrt(mse)
     return rmse
+
+
+def parse_evaluation_results(filepath: str) -> tuple[DataFrame, Any, Any]:
+    results_df: pd.DataFrame = pd.read_csv(filepath)
+    results_df.set_index("Symbol", inplace=True)
+    summary_df: pd.DataFrame = results_df.describe(percentiles=[0.75, 0.95])
+    best_model_name, rmse = summary_df.loc['95%'].idxmin(), summary_df.loc['95%'].min()
+    return summary_df, best_model_name, rmse
