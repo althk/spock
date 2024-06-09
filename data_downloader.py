@@ -34,8 +34,8 @@ from typing import Dict
 import numpy as np
 import pandas as pd
 import pandas_ta as ta
-from absl import flags, app, logging
 import yfinance as yf
+from absl import flags, app, logging
 
 FLAGS = flags.FLAGS
 
@@ -117,7 +117,7 @@ def main(_):
     if FLAGS.start_date:
         start_date = datetime.date.fromisoformat(FLAGS.start_date)
     else:
-        start_date = end_date - datetime.timedelta(days=365*2)
+        start_date = end_date - datetime.timedelta(days=365 * 2)
     logging.info(f'downloading historical data from {start_date.isoformat()} '
                  f'to {end_date.isoformat()}')
     download_historical_data(symbol_dict, FLAGS.data_dir, start_date, end_date)
