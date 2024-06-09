@@ -34,11 +34,11 @@ def _train_and_save(model_name, file_path, ticker, output_dir):
     raw_data = util.load_historical_data(file_path)
     scaler, X_scaled, y = util.preprocess_data(raw_data)
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2)
-    logging.info(f'{ticker}: X_train.shape = {X_train.shape}, X_test.shape = {X_test.shape}'
-                 f'y_train.shape = {y_train.shape}, y_test.shape = {y_test.shape}')
+    logging.debug(f'{ticker}: X_train.shape = {X_train.shape}, X_test.shape = {X_test.shape}'
+                  f'y_train.shape = {y_train.shape}, y_test.shape = {y_test.shape}')
     logging.info(f'{ticker}: running grid search cv for best estimator')
     model_factory, param_grid = util.get_model(model_name)
-    estimator, _ = util.evaluate_tr_model(model_factory, param_grid, X_train, y_train, X_test, y_test)
+    estimator, _ = util.evaluate_tr_model(model_factory(), param_grid, X_train, y_train, X_test, y_test)
     _save_model(estimator, scaler, output_dir, model_name, ticker)
 
 
@@ -48,6 +48,7 @@ def _save_model(estimator, scaler, output_dir, model_name, ticker):
     scaler_path = os.path.join(output_dir, scaler_file)
     joblib.dump(estimator, model_path)
     joblib.dump(scaler, scaler_path)
+    logging.info(f'{ticker}: saving model to {model_path}, scaler to {scaler_path}')
 
 
 def main(_):
