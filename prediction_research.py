@@ -79,10 +79,10 @@ def main(_):
     if not os.path.isdir(FLAGS.output_dir):
         logging.info(f'creating output dir {FLAGS.output_dir}')
         os.mkdir(FLAGS.output_dir)
-    eval_results_dir = os.path.join(FLAGS.output_dir, 'evaluation_results')
+    eval_results_dir = os.path.join(FLAGS.output_dir,
+                                    f'{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}')
     os.makedirs(eval_results_dir, exist_ok=True)
-    eval_results_filename = os.path.join(eval_results_dir,
-                                         f'{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.csv')
+    eval_results_filename = os.path.join(eval_results_dir, 'evaluation_results.csv')
     train_predict_evaluate_all(FLAGS.data_dir)
     _save_final_eval_results(eval_results_filename)
 

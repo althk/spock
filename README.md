@@ -47,7 +47,7 @@ $ python prediction_research.py --data_dir='./data' --output_dir='./output' --lo
 
 ### Interpreting the results
 
-1. The last step above dumps the evaluation results under the `output_dir/evaluation_results/YYYYmmddHHMMSS.csv`
+1. The last step above dumps the evaluation results under the `output_dir/YYYYmmddHHMMSS/evaluation_results.csv`
 2. Run `parse_evaluation_results.py` to find out the best overall model
 
 ```shell
