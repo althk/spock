@@ -59,7 +59,7 @@ def _train_and_evaluate_tr_models(ticker, X_scaled, y):
     for model_name, cfg in config.tr_model_cfg.items():
         logging.info(f'{ticker}: finding best estimator for {model_name}')
         model_inst, param_grid = cfg
-        rmse = util.evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test)
+        _, rmse = util.evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test)
         evaluation_results[model_name] = rmse
     return evaluation_results
 

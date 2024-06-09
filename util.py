@@ -7,6 +7,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import MinMaxScaler
 
+import config
+
 
 def load_historical_data(filepath: str) -> pd.DataFrame:
     raw_data = pd.read_csv(filepath)
@@ -27,7 +29,7 @@ def preprocess_data(raw_data: pd.DataFrame):
 
 
 def evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test, n_jobs=-1, cv=5):
-    """Returns the RMSE for the predictions on the given test data on the best estimator."""
+    """Returns the best estimator and RMSE for the predictions on the given test data."""
     # find the best estimator using grid search cross validation
     searcher = GridSearchCV(estimator=model_inst, param_grid=param_grid,
                             n_jobs=n_jobs, cv=cv, scoring='neg_mean_squared_error')
@@ -38,7 +40,7 @@ def evaluate_tr_model(model_inst, param_grid, X_train, y_train, X_test, y_test, 
     predictions = estimator.predict(X_test)
     mse = mean_squared_error(y_test, predictions)
     rmse = np.sqrt(mse)
-    return rmse
+    return estimator, rmse
 
 
 def parse_evaluation_results(filepath: str) -> tuple[DataFrame, Any, Any]:
@@ -47,3 +49,12 @@ def parse_evaluation_results(filepath: str) -> tuple[DataFrame, Any, Any]:
     summary_df: pd.DataFrame = results_df.describe(percentiles=[0.75, 0.95])
     best_model_name, rmse = summary_df.loc['95%'].idxmin(), summary_df.loc['95%'].min()
     return summary_df, best_model_name, rmse
+
+
+def get_model(model_name: str) -> Any:
+    return config.tr_model_cfg[model_name]
+
+
+def model_scaler_filenames(ticker, model_name):
+    return f'{ticker}_{model_name}.pkl', f'{ticker}_scaler.pkl'
+
