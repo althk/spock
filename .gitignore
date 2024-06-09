@@ -244,6 +244,7 @@ cython_debug/
 data/
 logs/
 output/
+local/
 
 # local files to ignore
 *.local.*
