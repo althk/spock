@@ -13,9 +13,6 @@ The following models are currently included in the evaluation:
     - DecisionTreeRegressor
     - RandomForestRegressor
     - XGBoostRegressor
-- NN models
-    - LSTM
-    - CNN
 
 ### High level overview
 
