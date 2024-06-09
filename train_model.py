@@ -17,6 +17,7 @@ flags.DEFINE_string('data_dir', None,
 
 def _load_and_train(model_name, data_dir, output_dir):
     data_files = os.listdir(data_dir)
+    data_files.sort()
     total = len(data_files)
     futures = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
